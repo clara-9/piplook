@@ -39,7 +39,7 @@ def label_parser(visio_response):
 
 @app.route("/label_species_checker")
 def label_species_checker():
-    print(request.args.get("labels_json")
+    print(request.args.get("labels_json"))
     worked=1
     return worked
 
@@ -77,7 +77,7 @@ def bird_capture():
     return species_labels
 
 
-@app.route("/species_response"):
+@app.route("/species_response")
 def species_human_response():
     human_response=request.args.get("labels_json")
     if human_response=="idk":
@@ -86,6 +86,9 @@ def species_human_response():
         post_to_sql()
     return
 
+@app.route("/health")
+def health():
+    return healthy
 
 
 if __name__ == '__main__':
