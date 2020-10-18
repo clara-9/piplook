@@ -106,11 +106,11 @@ def test():
 
 @app.route("/test2", methods=['POST'])
 def test2():
-    png_url=request.args.get("png_url")
     file=request.files['file']
-    file.save(os.path.join("/tmp/", file.name))
+    path=os.path.join("/tmp/", file.name)
+    file.save(path)
     img_id=id_generator()
-    image_url=upload_to_bucket(img_id, png_url, "picture_store")
+    image_url=upload_to_bucket(img_id, path, "picture_store")
     labels=visio_call(image_url)
     print(labels)
     return labels
