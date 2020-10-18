@@ -88,7 +88,7 @@ def species_human_response():
 
 @app.route("/health")
 def health():
-    return healthy
+    return "healthy"
 
 
 if __name__ == '__main__':
