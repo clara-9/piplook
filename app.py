@@ -89,6 +89,7 @@ def species_human_response():
 
 def sort_labels(labels):
     score=0
+    best_label=""
     for label in labels["labels"]:
         if float(label["score"])>score:
             score=float(label["score"])
