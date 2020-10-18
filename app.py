@@ -119,6 +119,7 @@ def test2():
     image_url=upload_to_bucket(img_id, path, "picture_store")
     labels=visio_call(image_url)
     labels=label_parser(labels)
+    label=labels[0]
     return labels
 
 if __name__ == '__main__':
