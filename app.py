@@ -39,8 +39,6 @@ def label_parser(visio_response):
 
 @app.route("/label_species_checker")
 def label_species_checker():
-    print(request.args.get("labels_json")
-    worked=1
     return worked
 
 @app.route("/img_id_creator")
