@@ -75,7 +75,7 @@ def bird_capture():
     return species_labels
 
 
-@app.route("/species_response"):
+@app.route("/species_response")
 def species_human_response():
     human_response=request.args.get("labels_json")
     if human_response=="idk":
@@ -84,7 +84,7 @@ def species_human_response():
         post_to_sql()
     return
 
-@app.route("/health"):
+@app.route("/health")
 def heallth():
     return "healthy"
 
