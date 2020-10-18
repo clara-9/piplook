@@ -5,7 +5,7 @@ Created on Sat Oct 17 19:34:18 2020
 @author: crull
 """
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import pandas
 from google.cloud import vision
 from google.cloud.vision import ImageAnnotatorClient
@@ -13,19 +13,20 @@ from google.cloud import storage
 import uuid 
 app = Flask(__name__)
 
-@app.route("/save_img" methods=['POST'])
-def data_to_file():
-    png_data=request.arguments.get("png_data")
-    png_id=id_generator()
-    filename="tmp/{id}png".format(png_id)
-    with open(filename, "wb") as fh:
-        fh.write(base64.decodebytes(png_data))
-    return filename
+
+# @app.route("/save_img", methods=['POST'])
+# def data_to_file():
+#     png_data=request.arguments.get("png_data")
+#     png_id=id_generator()
+#     filename="tmp/{id}png".format(png_id)
+#     with open(filename, "wb") as fh:
+#         fh.write(base64.decodebytes(png_data))
+#     return filename
 
 @app.route("/visio_call", methods=['POST'])
 def visio_call(image_url):
     client = vision.ImageAnnotatorClient()
-    response = client.label_detection({
+    visio_response = client.label_detection({
         'source': {'image_uri': image_url}})
     return visio_response
 
@@ -73,7 +74,7 @@ def bird_capture():
     img_id=data_to_file(png_data)
     image_url=upload_to_bucket(img_id, img_id, "picture_store")
     labels=visio_call(image_url)
-    species_labels=label_species_checker()
+    species_labels=label_species_checker(labels)
     return species_labels
 
 
@@ -99,7 +100,7 @@ def test():
     img_id=id_generator()
     image_url=upload_to_bucket(img_id, png_url, "picture_store")
     print(lat)
-    print(long)
+    print(lon)
     return
 
 @app.route("/test2")
