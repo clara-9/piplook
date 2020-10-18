@@ -124,13 +124,13 @@ def test2():
     print(file)
     path=os.path.join("/tmp/", file.name)
     file.save(path)
-    img_id=id_generator()+".jpeg"
+    img_id=id_generator()+".jpg"
     image_url=upload_to_bucket(img_id, path, "picture_store")
     labels=visio_call(image_url)
     labels=label_parser(labels)
     print(labels)
-    print(sort_labels(labels))
-    return labels
+    best_label=sort_labels(labels)
+    return best_label
 
 if __name__ == '__main__':
     app.run()
