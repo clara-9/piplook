@@ -13,15 +13,16 @@ from google.cloud import storage
 import uuid 
 app = Flask(__name__)
 
-@app.route("/save_img")
-def data_to_file(png_data):
+@app.route("/save_img" methods=['POST'])
+def data_to_file():
+    png_data=request.arguments.get("png_data")
     png_id=id_generator()
     filename="tmp/{id}png".format(png_id)
     with open(filename, "wb") as fh:
         fh.write(base64.decodebytes(png_data))
     return filename
 
-@app.route("/visio_call")
+@app.route("/visio_call", methods=['POST'])
 def visio_call(image_url):
     client = vision.ImageAnnotatorClient()
     response = client.label_detection({
@@ -47,7 +48,7 @@ def id_generator():
     img_id=str(uuid.uuid1())
     return img_id
 
-@app.route("/bucket_upload")
+@app.route("/bucket_upload", methods=['POST'])
 def upload_to_bucket(img_name, path_to_file, bucket_name):
     """ Upload data to a bucket"""
 
@@ -89,8 +90,16 @@ def species_human_response():
 def heallth():
     return "healthy"
 
-
-
+@app.route("/test")
+def test():
+    png_url=request.args.get("png_url")
+    lat=request.args.get("lat")
+    lon=request.args.get("long")
+    img_id=id_generator()
+    image_url=upload_to_bucket(img_id, png_url, "picture_store")
+    print(lat)
+    print(long)
+    return
 
 if __name__ == '__main__':
     app.run()
