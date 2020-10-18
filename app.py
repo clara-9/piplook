@@ -128,7 +128,7 @@ def post_record():
     user_id=request.args.get("user_id")
     db_uri="postgres://pmgenzxwfartue:b4378ea35bf3914bd75259b0eac84ed461703371cd34600957766e437c196ff4@ec2-54-247-103-43.eu-west-1.compute.amazonaws.com:5432/d9rts97cekhe28"
     engine = create_engine(db_uri)
-    query=f"""INSERT INTO sightings (species, timestamp, latitude, longitude, image_id, user_id)
+    query=f"""INSERT INTO public.sighting (species, timestamp, latitude, longitude, image_id, user_id)
     VALUES ({species}, {timestamp}, {latitude}, {longitude}, {image_id}, {user_id});"""
     pd.read_sql(query, engine)
     return
@@ -138,11 +138,11 @@ def get_coords():
     species=request.args.get("species")
     db_uri="postgres://pmgenzxwfartue:b4378ea35bf3914bd75259b0eac84ed461703371cd34600957766e437c196ff4@ec2-54-247-103-43.eu-west-1.compute.amazonaws.com:5432/d9rts97cekhe28"
     engine = create_engine(db_uri)
-    query=f"""SELECT latitude, longitude FROM sightings 
+    query=f"""SELECT latitude as lat, longitude as lng FROM public.sighting 
     WHERE species='{species}';"""
     df=pd.read_sql(query, engine)
-    print(df)
-    return df
+    coords_collection=df.to_dict('records')
+    return coords_collection
 
 
 if __name__ == '__main__':
