@@ -115,7 +115,7 @@ def bird_capture():
     best_label=sort_labels(labels)
     labels["best_label"]=best_label
     labels["img_id"]=img_id
-    return lables
+    return labels
 
 
 # @app.route("/post_record", methods=['POST'])
