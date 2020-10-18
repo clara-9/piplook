@@ -12,6 +12,7 @@ from google.cloud.vision import ImageAnnotatorClient
 from google.cloud import storage
 import uuid 
 import os
+import json
 app = Flask(__name__)
 
 
@@ -96,6 +97,8 @@ def species_human_response():
 def sort_labels(labels):
     score=0
     for label in labels:
+        print(label)
+        label=json.loads(label)
         if float(label["score"])>score:
             score=float(label["score"])
             best_label=label["species"]
@@ -127,6 +130,7 @@ def test2():
     image_url=upload_to_bucket(img_id, path, "picture_store")
     labels=visio_call(image_url)
     labels=label_parser(labels)
+    print(labels)
     print(sort_labels(labels))
     return labels
 
