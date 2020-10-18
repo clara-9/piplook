@@ -112,7 +112,7 @@ def test2():
     img_id=id_generator()+".jpeg"
     image_url=upload_to_bucket(img_id, path, "picture_store")
     labels=visio_call(image_url)
-    print(labels)
+    labels=label_parser(labels)
     return labels
 
 if __name__ == '__main__':
