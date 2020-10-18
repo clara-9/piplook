@@ -144,6 +144,18 @@ def get_coords():
     coords_collection={"records":df.to_dict('records')}
     return coords_collection
 
+@app.route("/bird_pokedex", methods=['GET'])
+def bird_pokedex():
+    user_id=request.args.get("user_id")
+    db_uri="postgres://pmgenzxwfartue:b4378ea35bf3914bd75259b0eac84ed461703371cd34600957766e437c196ff4@ec2-54-247-103-43.eu-west-1.compute.amazonaws.com:5432/d9rts97cekhe28"
+    engine = create_engine(db_uri)
+    query=f"""SELECT species FROM public.sighting 
+    WHERE user_id='{user_id}';"""
+    df=pd.read_sql(query, engine)
+    coords_collection={"records":df.to_dict('records')}
+    return coords_collection
+
+
 
 if __name__ == '__main__':
     app.run()
