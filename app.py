@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Oct 17 19:34:18 2020
+
+@author: crull
+"""
+
 from flask import Flask, render_template
 from google.cloud import vision
 from google.cloud.vision import ImageAnnotatorClient
@@ -5,7 +12,7 @@ from google.cloud import storage
 import uuid 
 app = Flask(__name__)
 
-@app.route("/save_img", methods = ['POST'])
+@app.route("/save_img")
 def data_to_file(png_data):
     png_id=id_generator()
     filename="tmp/{id}png".format(png_id)
@@ -13,7 +20,7 @@ def data_to_file(png_data):
         fh.write(base64.decodebytes(png_data))
     return filename
 
-@app.route("/visio_call", methods = ['POST'])
+@app.route("/visio_call")
 def visio_call(image_url):
     client = vision.ImageAnnotatorClient()
     response = client.label_detection({
@@ -32,14 +39,16 @@ def label_parser(visio_response):
 
 @app.route("/label_species_checker")
 def label_species_checker():
-    return
+    print(request.args.get("labels_json")
+    worked=1
+    return worked
 
 @app.route("/img_id_creator")
 def id_generator():
     img_id=str(uuid.uuid1())
     return img_id
 
-@app.route("/bucket_upload", methods = ['POST'])
+@app.route("/bucket_upload")
 def upload_to_bucket(img_name, path_to_file, bucket_name):
     """ Upload data to a bucket"""
 
@@ -68,7 +77,7 @@ def bird_capture():
     return species_labels
 
 
-@app.route("/species_response")
+@app.route("/species_response"):
 def species_human_response():
     human_response=request.args.get("labels_json")
     if human_response=="idk":
@@ -77,10 +86,12 @@ def species_human_response():
         post_to_sql()
     return
 
-
-@app.route("/health")
-def health():
+@app.route("/health"):
+def heallth():
     return "healthy"
+
+
+
 
 if __name__ == '__main__':
     app.run()
