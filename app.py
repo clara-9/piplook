@@ -26,7 +26,7 @@ def data_to_file():
 def visio_call(image_url):
     client = vision.ImageAnnotatorClient()
     response = client.label_detection({
-        'source': {'image_uri': 'https://i.imgur.com/PN40fUh.jpeg'}})
+        'source': {'image_uri': image_url}})
     return visio_response
 
 @app.route("/label_parser")
@@ -60,7 +60,7 @@ def upload_to_bucket(img_name, path_to_file, bucket_name):
     #print(buckets = list(storage_client.list_buckets())
 
     bucket = storage_client.get_bucket(bucket_name)
-    blob = bucket.blob(blob_name)
+    blob = bucket.blob(img_name)
     blob.upload_from_filename(path_to_file)
 
     #returns a public url
@@ -87,8 +87,9 @@ def species_human_response():
     return
 
 @app.route("/health")
-def heallth():
+def health():
     return "healthy"
+
 
 @app.route("/test")
 def test():
@@ -100,6 +101,15 @@ def test():
     print(lat)
     print(long)
     return
+
+@app.route("/test2")
+def test2():
+    png_url=request.args.get("png_url")
+    img_id=id_generator()
+    image_url=upload_to_bucket(png_url, img_id, "picture_store")
+    labels=visio_call(image_url)
+    print(labels)
+    return labels
 
 if __name__ == '__main__':
     app.run()
