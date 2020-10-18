@@ -93,6 +93,13 @@ def species_human_response():
         post_to_sql()
     return
 
+def sort_labels(labels):
+    score=0
+    for label in labels:
+        if label["score"]>score:
+            best_label=label["species"]
+    return best_label
+
 @app.route("/health")
 def health():
     return "healthy"
@@ -119,7 +126,7 @@ def test2():
     image_url=upload_to_bucket(img_id, path, "picture_store")
     labels=visio_call(image_url)
     labels=label_parser(labels)
-    label=labels[0]
+    print(sort_labels(labels))
     return labels
 
 if __name__ == '__main__':
