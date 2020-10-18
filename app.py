@@ -107,7 +107,7 @@ def test():
 def test2():
     png_url=request.args.get("png_url")
     img_id=id_generator()
-    image_url=upload_to_bucket(png_url, img_id, "picture_store")
+    image_url=upload_to_bucket(img_id, png_url, "picture_store")
     labels=visio_call(image_url)
     print(labels)
     return labels
