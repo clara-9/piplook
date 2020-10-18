@@ -107,6 +107,7 @@ def test():
 @app.route("/test2", methods=['POST'])
 def test2():
     file=request.files['file']
+    print(file)
     path=os.path.join("/tmp/", file.name)
     file.save(path)
     img_id=id_generator()+".jpeg"
