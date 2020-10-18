@@ -6,6 +6,7 @@ Created on Sat Oct 17 19:34:18 2020
 """
 
 from flask import Flask, render_template
+import pandas
 from google.cloud import vision
 from google.cloud.vision import ImageAnnotatorClient
 from google.cloud import storage
