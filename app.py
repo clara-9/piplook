@@ -75,16 +75,6 @@ def upload_to_bucket(img_name, path_to_file, bucket_name):
     print(blob.public_url)
     return blob.public_url
 
-@app.route("/bird_capture")
-def bird_capture():
-    png_data=request.args.get("png_data")
-    img_id=data_to_file(png_data)
-    image_url=upload_to_bucket(img_id, img_id, "picture_store")
-    labels=visio_call(image_url)
-    species_labels=label_species_checker(labels)
-    return species_labels
-
-
 @app.route("/species_response")
 def species_human_response():
     human_response=request.args.get("labels_json")
@@ -107,19 +97,8 @@ def health():
     return "healthy"
 
 
-@app.route("/test")
-def test():
-    png_url=request.args.get("png_url")
-    lat=request.args.get("lat")
-    lon=request.args.get("long")
-    img_id=id_generator()
-    image_url=upload_to_bucket(img_id, png_url, "picture_store")
-    print(lat)
-    print(lon)
-    return
-
-@app.route("/test2", methods=['POST'])
-def test2():
+@app.route("/bird_capture", methods=['POST'])
+def bird_capture():
     file=request.files['file']
     print(file)
     path=os.path.join("/tmp/", file.name)
