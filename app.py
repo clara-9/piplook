@@ -11,6 +11,7 @@ from google.cloud import vision
 from google.cloud.vision import ImageAnnotatorClient
 from google.cloud import storage
 import uuid 
+import os
 app = Flask(__name__)
 
 
@@ -103,9 +104,11 @@ def test():
     print(lon)
     return
 
-@app.route("/test2")
+@app.route("/test2", methods=['POST'])
 def test2():
     png_url=request.args.get("png_url")
+    file=request.files['file']
+    file.save(os.path.join("/tmp/", file.name))
     img_id=id_generator()
     image_url=upload_to_bucket(img_id, png_url, "picture_store")
     labels=visio_call(image_url)
