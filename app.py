@@ -141,7 +141,7 @@ def get_coords():
     query=f"""SELECT latitude as lat, longitude as lng FROM public.sighting 
     WHERE species='{species}';"""
     df=pd.read_sql(query, engine)
-    coords_collection=¨{"records":df.to_dict('records')}
+    coords_collection={"records":df.to_dict('records')}
     return coords_collection
 
 
