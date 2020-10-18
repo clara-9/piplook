@@ -96,7 +96,7 @@ def species_human_response():
 
 def sort_labels(labels):
     score=0
-    for label in labels:
+    for label in labels["labels"]:
         print(label)
         label=json.loads(label)
         if float(label["score"])>score:
