@@ -152,7 +152,7 @@ def bird_pokedex():
     query=f"""SELECT species FROM public.sighting 
     WHERE user_id='{user_id}';"""
     df=pd.read_sql(query, engine)
-    coords_collection={"records":df.to_dict('records')}
+    coords_collection={"records":list(df["species"].unique())}
     return coords_collection
 
 
