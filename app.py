@@ -6,7 +6,7 @@ Created on Sat Oct 17 19:34:18 2020
 """
 
 from flask import Flask, render_template, request
-import pandas
+import pandas as pd
 from google.cloud import vision
 from google.cloud.vision import ImageAnnotatorClient
 from google.cloud import storage
@@ -35,15 +35,20 @@ def visio_call(image_url):
 def label_parser(visio_response):
     label_list=[]
     for label in visio_response.label_annotations:
-        label_dict={"species":label.description, "score":label.score}
-        label_list.append(label_dict)
+        if label_species_checker(label.description.lower()):
+            label_dict={"species":label.description.lower(), "score":label.score}
+            label_list.append(label_dict)
     labels_json={"labels":label_list}
     print(labels_json)
     return labels_json
 
 @app.route("/label_species_checker")
-def label_species_checker():
-    return worked
+def label_species_checker(label):
+    df=pd.read_csv("lowercased_species.csv")
+    if label in df["PRIMARY_COM_NAME"].unique():
+        return True
+    else:
+        return False
 
 @app.route("/img_id_creator")
 def id_generator():
