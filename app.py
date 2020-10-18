@@ -109,7 +109,7 @@ def test2():
     file=request.files['file']
     path=os.path.join("/tmp/", file.name)
     file.save(path)
-    img_id=id_generator()
+    img_id=id_generator()+".jpeg"
     image_url=upload_to_bucket(img_id, path, "picture_store")
     labels=visio_call(image_url)
     print(labels)
