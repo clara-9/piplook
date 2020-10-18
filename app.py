@@ -13,7 +13,7 @@ from google.cloud import storage
 import uuid 
 import os
 import json
-#from sqlalchemy import create_engine
+from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
@@ -118,20 +118,20 @@ def bird_capture():
     return labels
 
 
-# @app.route("/post_record", methods=['POST'])
-# def bird_capture():
-#     species=request.args.get("species")
-#     timestamp=request.args.get("timestamp")
-#     latitude=request.args.get("latitude")
-#     longituderequest.args.get("longitude")
-#     image_id=request.args.get("image_id")
-#     user_id=request.args.get("user_id")
-#     db_uri="postgres://pmgenzxwfartue:b4378ea35bf3914bd75259b0eac84ed461703371cd34600957766e437c196ff4@ec2-54-247-103-43.eu-west-1.compute.amazonaws.com:5432/d9rts97cekhe28"
-#     engine = create_engine(db_uri)
-#     query=f"""INSERT INTO sightings (species, timestamp, latitude, longitude, image_id, user_id)
-#     VALUES ({species}, {timestamp}, {latitude}, {longitude}, {image_id}, {user_id});"""
-#     pd.read_sql(query,conn)
-#     return best_label
+@app.route("/post_record", methods=['POST'])
+def post_record():
+    species=request.args.get("species")
+    timestamp=request.args.get("timestamp")
+    latitude=request.args.get("latitude")
+    longitude=request.args.get("longitude")
+    image_id=request.args.get("image_id")
+    user_id=request.args.get("user_id")
+    db_uri="postgres://pmgenzxwfartue:b4378ea35bf3914bd75259b0eac84ed461703371cd34600957766e437c196ff4@ec2-54-247-103-43.eu-west-1.compute.amazonaws.com:5432/d9rts97cekhe28"
+    engine = create_engine(db_uri)
+    query=f"""INSERT INTO sightings (species, timestamp, latitude, longitude, image_id, user_id)
+    VALUES ({species}, {timestamp}, {latitude}, {longitude}, {image_id}, {user_id});"""
+    pd.read_sql(query, engine)
+    return best_label
 
 if __name__ == '__main__':
     app.run()
