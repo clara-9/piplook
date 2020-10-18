@@ -131,7 +131,19 @@ def post_record():
     query=f"""INSERT INTO sightings (species, timestamp, latitude, longitude, image_id, user_id)
     VALUES ({species}, {timestamp}, {latitude}, {longitude}, {image_id}, {user_id});"""
     pd.read_sql(query, engine)
-    return best_label
+    return
+
+@app.route("/get_coords", methods=['GET'])
+def get_coords():
+    species=request.args.get("species")
+    db_uri="postgres://pmgenzxwfartue:b4378ea35bf3914bd75259b0eac84ed461703371cd34600957766e437c196ff4@ec2-54-247-103-43.eu-west-1.compute.amazonaws.com:5432/d9rts97cekhe28"
+    engine = create_engine(db_uri)
+    query=f"""SELECT latitude, longitude FROM sightings 
+    WHERE species='{species}';"""
+    df=pd.read_sql(query, engine)
+    print(df)
+    return df
+
 
 if __name__ == '__main__':
     app.run()
